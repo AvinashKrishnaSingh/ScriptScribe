@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ScriptScribe is Loading...</title>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <div class="content">
+        <!-- assume you have a spinner.gif in your static/css folder -->
+        <img src="{{ url_for('static', filename='css/spinner.gif') }}" alt="Loading…" />
+        <h2>Loading AI models, please stand by…</h2>
+    </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "/index";
+    }, 5000); // Adjust if your model loads faster/slower
+
+    
+  </script>
+</body>
+</html>

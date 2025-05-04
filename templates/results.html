@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScriptScribe Results</title>
+  <link href="{{ url_for('static', filename='css/style.css') }}" 
+  rel="stylesheet" />
+</head>
+<body>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='css/bg.mp4') }}" type="video/mp4">
+</video>
+  <!-- Main container for results -->
+  <div class="results-container">
+
+    <div class="left-column">
+      <div class="image-wrapper">
+        <!-- Uploaded/Refined Image -->
+        <img src="{{ image_url }}" alt="Uploaded Image" class="result-image" />
+      </div>
+      <!-- Button under the image -->
+      <a href="/" class="upload-button">Upload Another Image</a>
+    </div>
+
+    <div class="right-column">
+      <!-- Extracted Text box -->
+      <div class="box">
+        <h2>Extracted Devanagari Text</h2>
+        <pre>{{ extracted_text }}</pre>
+      </div>
+
+      <!-- Translated Text box -->
+      <div class="box">
+        <h2>Translated Latin Text</h2>
+        <pre>{{ devtolat }}</pre>
+      </div>
+
+      
+
+      <!-- Translated Text box -->
+      <div class="box">
+        <h2>Meaning</h2>
+        <p>{{ translated }}</p>
+      </div>
+
+      <!-- Contextual Meaning / Semantic Analysis box -->
+      <div class="box">
+        <h2>Contextual Meaning</h2>
+        <p>{{ semantic_result }}</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
