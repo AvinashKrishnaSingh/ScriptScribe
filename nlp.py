@@ -1,10 +1,9 @@
 # nlp.py
 
-# from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-import torch
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+# import torch
 
-pipe = pipeline("translation", model="diabolic6045/Sanskrit-qwen-7B-Translate")
 
 
 
@@ -162,10 +161,17 @@ def convert_text(text):
 
 
 
+tokenizer = AutoTokenizer.from_pretrained(
+    "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
+)
+model = AutoModelForSeq2SeqLM.from_pretrained(
+    "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
+)
+
 def translate_sanskrit(text):
-    prompt = f"Translate from Sanskrit to English: {text}"
-    output = pipe(prompt, max_new_tokens=200)
-    return output[0]['generated_text']
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+    output = model.generate(**inputs, max_new_tokens=100)
+    return tokenizer.decode(output[0], skip_special_tokens=True)
 
 # tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
 # model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
