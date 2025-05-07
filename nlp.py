@@ -4,6 +4,8 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
+pipe = pipeline("translation", model="diabolic6045/Sanskrit-qwen-7B-Translate")
+
 
 
 def devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals):
@@ -159,7 +161,6 @@ def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
 
-pipe = pipeline("translation", model="diabolic6045/Sanskrit-qwen-7B-Translate")
 
 def translate_sanskrit(text):
     prompt = f"Translate from Sanskrit to English: {text}"
