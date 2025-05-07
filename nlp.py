@@ -158,71 +158,18 @@ numerals = {
 def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
-tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
-model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
+
+pipe = pipeline("translation", model="diabolic6045/Sanskrit-qwen-7B-Translate")
 
 def translate_sanskrit(text):
-    inputs  = tokenizer(text, return_tensors="pt")
-    output  = model.generate(**inputs, max_new_tokens=200)
-    return tokenizer.decode(output[0], skip_special_tokens=True)
+    prompt = f"Translate from Sanskrit to English: {text}"
+    output = pipe(prompt, max_new_tokens=200)
+    return output[0]['generated_text']
 
+# tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
+# model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
 
-
-# # Load Swamitucats' fine-tuned M2M100 model for Sanskrit → English
-# model = AutoModelForSeq2SeqLM.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
-# tokenizer = AutoTokenizer.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
-
-# def translate_to_english(sanskrit_text):
-#     inputs = tokenizer(sanskrit_text, return_tensors="pt")
-#     output_ids = model.generate(**inputs)
-#     english_translation = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-#     return english_translation
-
-# Handle translation of roman characters
-# Load IndicTrans2 model only once
-# tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-mul-en")
-# model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-mul-en")
-
-# # Takes Romanized string and returns English translation
-# def translate_to_english(text):
-#     inputs = tokenizer(text, return_tensors="pt", padding=True)
-#     output_tokens = model.generate(**inputs)
-#     translation = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0]
-#     return translation
-
-
-# —————————————————————————————
-# 2) Now pull in the Qwen‑7B model to do Sanskrit → English
-# —————————————————————————————
-
-# # Load tokenizer
-# tokenizer = AutoTokenizer.from_pretrained(
-#     "diabolic6045/Sanskrit-qwen-7B-Translate",
-#     trust_remote_code=True
-# )
-
-# # Load model with optimizations to avoid memory crash
-# model = AutoModelForCausalLM.from_pretrained(
-#     "diabolic6045/Sanskrit-qwen-7B-Translate",
-#     trust_remote_code=True,
-#     torch_dtype=torch.float16,           # reduce memory usage
-#     device_map="auto",                   # distribute layers to GPU/CPU as needed
-#     low_cpu_mem_usage=True              # minimize RAM usage
-# )
-
-# # Create translator pipeline
-# translator = pipeline(
-#     "translation",
-#     model=model,
-#     tokenizer=tokenizer,
-#     src_lang="san_Deva",
-#     tgt_lang="en",
-#     device=0 if torch.cuda.is_available() else -1
-# )
-
-# def translate_to_english(devnagari_text):
-#     """
-#     Translates Sanskrit in Devanagari to English using Qwen‑7B.
-#     """
-#     out = translator(devnagari_text, max_length=512)
-#     return out[0]["translation_text"]
+# def translate_sanskrit(text):
+#     inputs  = tokenizer(text, return_tensors="pt")
+#     output  = model.generate(**inputs, max_new_tokens=200)
+#     return tokenizer.decode(output[0], skip_special_tokens=True)
