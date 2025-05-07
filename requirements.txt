@@ -107,7 +107,6 @@ termcolor==3.0.1
 tokenizers==0.15.2
 toml==0.10.2
 toolz==1.0.0
-torch==2.6.0+cpu
 torchaudio==2.6.0+cpu
 torchvision==0.21.0+cpu
 tqdm==4.67.1
