@@ -1,8 +1,8 @@
 # nlp.py
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-# import torch
+# from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch
 
 
 
@@ -158,17 +158,25 @@ numerals = {
 def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
+tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
+model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
+
+def translate_sanskrit(text):
+    inputs  = tokenizer(text, return_tensors="pt")
+    output  = model.generate(**inputs, max_new_tokens=200)
+    return tokenizer.decode(output[0], skip_special_tokens=True)
 
 
-# Load Swamitucats' fine-tuned M2M100 model for Sanskrit → English
-model = AutoModelForSeq2SeqLM.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
-tokenizer = AutoTokenizer.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
 
-def translate_to_english(sanskrit_text):
-    inputs = tokenizer(sanskrit_text, return_tensors="pt")
-    output_ids = model.generate(**inputs)
-    english_translation = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    return english_translation
+# # Load Swamitucats' fine-tuned M2M100 model for Sanskrit → English
+# model = AutoModelForSeq2SeqLM.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
+# tokenizer = AutoTokenizer.from_pretrained("Swamitucats/M2M100_Sanskrit_English")
+
+# def translate_to_english(sanskrit_text):
+#     inputs = tokenizer(sanskrit_text, return_tensors="pt")
+#     output_ids = model.generate(**inputs)
+#     english_translation = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+#     return english_translation
 
 # Handle translation of roman characters
 # Load IndicTrans2 model only once
