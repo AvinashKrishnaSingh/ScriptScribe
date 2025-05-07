@@ -168,7 +168,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
     "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
 )
 
-def translate_sanskrit(text):
+def translate_to_english(text):
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     output = model.generate(**inputs, max_new_tokens=100)
     return tokenizer.decode(output[0], skip_special_tokens=True)
