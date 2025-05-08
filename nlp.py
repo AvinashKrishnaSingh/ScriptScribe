@@ -161,6 +161,7 @@ def convert_text(text):
 
 
 
+# Load the IndicTrans2 model with custom code
 tokenizer = AutoTokenizer.from_pretrained(
     "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
 )
@@ -168,10 +169,16 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
     "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
 )
 
+# Proper translation function
 def translate_to_english(text):
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
-    output = model.generate(**inputs, max_new_tokens=100)
-    return tokenizer.decode(output[0], skip_special_tokens=True)
+    if not text.strip():
+        return ""
+    # Prepend target language tag for English
+    tagged_input = f">>en<< {text.strip()}"
+    inputs = tokenizer(tagged_input, return_tensors="pt", padding=True, truncation=True)
+    with torch.no_grad():
+        output = model.generate(**inputs, max_new_tokens=100)
+    return tokenizer.batch_decode(output, skip_special_tokens=True)[0].strip()
 
 # tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
 # model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
