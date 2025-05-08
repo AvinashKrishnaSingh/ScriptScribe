@@ -163,21 +163,30 @@ def convert_text(text):
 
 # Load the IndicTrans2 model with custom code
 tokenizer = AutoTokenizer.from_pretrained(
-    "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
+    "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
 )
 model = AutoModelForSeq2SeqLM.from_pretrained(
-    "ai4bharat/indictrans2-en-indic-1B", trust_remote_code=True
+    "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
 )
 
 # Proper translation function
 def translate_to_english(text):
+    """
+    Translate Devanagari Sanskrit to English using IndicTrans2.
+    Prepends the required language tag (>>en<<).
+    """
     if not text.strip():
         return ""
-    # Prepend target language tag for English
+
+    # Prepend language tag
     tagged_input = f">>en<< {text.strip()}"
+
+    # Tokenize and generate
     inputs = tokenizer(tagged_input, return_tensors="pt", padding=True, truncation=True)
     with torch.no_grad():
-        output = model.generate(**inputs, max_new_tokens=100)
+        output = model.generate(**inputs, max_new_tokens=128)
+
+    # Decode and return result
     return tokenizer.batch_decode(output, skip_special_tokens=True)[0].strip()
 
 # tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
