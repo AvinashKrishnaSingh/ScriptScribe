@@ -1,8 +1,5 @@
 # nlp.py
-
-# from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-# # from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-# import torch
+from transformers import pipeline
 
 
 
@@ -159,25 +156,14 @@ numerals = {
 def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
+qwen = pipeline(
+    "text-generation",
+    model="diabolic6045/Sanskrit-qwen-7B-Translate",
+    tokenizer="diabolic6045/Sanskrit-qwen-7B-Translate",
+    trust_remote_code=True
+)
 
-
-# # Load the IndicTrans2 model with custom code
-# tokenizer = AutoTokenizer.from_pretrained(
-#     "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
-# )
-# model = AutoModelForSeq2SeqLM.from_pretrained(
-#     "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
-# )
-
-# # Proper translation function
-# def translate_to_english(text):
-#     if not text.strip():
-#         return ""
-    
-#     formatted_input = f">>sa<< >>en<< {text.strip()}"
-
-#     inputs = tokenizer(formatted_input, return_tensors="pt", padding=True, truncation=True)
-#     with torch.no_grad():
-#         output = model.generate(**inputs, max_new_tokens=128)
-
-#     return tokenizer.batch_decode(output, skip_special_tokens=True)[0].strip()
+def translate_to_english(text: str) -> str:
+    prompt = f"Translate Sanskrit into English:\n{text}\nEnglish:"
+    out = qwen(prompt, max_new_tokens=128, do_sample=False)[0]["generated_text"]
+    return out.split("English:")[-1].strip()
