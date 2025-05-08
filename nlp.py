@@ -1,5 +1,5 @@
 # nlp.py
-from transformers import pipeline
+from googletrans import Translator
 
 
 
@@ -156,14 +156,18 @@ numerals = {
 def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
-qwen = pipeline(
-    "text-generation",
-    model="diabolic6045/Sanskrit-qwen-7B-Translate",
-    tokenizer="diabolic6045/Sanskrit-qwen-7B-Translate",
-    trust_remote_code=True
-)
 
-def translate_to_english(text: str) -> str:
-    prompt = f"Translate Sanskrit into English:\n{text}\nEnglish:"
-    out = qwen(prompt, max_new_tokens=128, do_sample=False)[0]["generated_text"]
-    return out.split("English:")[-1].strip()
+
+translator = Translator()
+
+
+def translate_to_english(text: str,
+                         src: str = 'auto',
+                         dest: str = 'en') -> str:
+    """
+    Translate any text (Devanagari or Roman) into English
+    using Google Translate via googletrans.
+    """
+    # returns a googletrans.models.Translated object
+    translated = translator.translate(text, src=src, dest=dest)
+    return translated.text
