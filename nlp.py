@@ -1,8 +1,8 @@
 # nlp.py
-# from googletrans import Translator
+from googletrans import Translator
 
 
-from google.cloud import translate_v2 as translate
+# from google.cloud import translate_v2 as translate
 
 
 
@@ -160,27 +160,28 @@ def convert_text(text):
 
 
 
-client = translate.Client()
-
-def translate_to_english(text: str,
-                        src: str = 'auto',
-                        dest: str = 'en') -> str:
-    """
-    Translate text using Google Cloud Translate.
-    Handles long passages, auto-detects script/language.
-    """
-    result = client.translate(text, source_language=src, target_language=dest)
-    return result['translatedText']
-# translator = Translator()
-
+# client = translate.Client()
 
 # def translate_to_english(text: str,
-#                          src: str = 'auto',
-#                          dest: str = 'en') -> str:
+#                         src: str = 'auto',
+#                         dest: str = 'en') -> str:
 #     """
-#     Translate any text (Devanagari or Roman) into English
-#     using Google Translate via googletrans.
+#     Translate text using Google Cloud Translate.
+#     Handles long passages, auto-detects script/language.
 #     """
-#     # returns a googletrans.models.Translated object
-#     translated = translator.translate(text, src=src, dest=dest)
-#     return translated.text
+#     result = client.translate(text, source_language=src, target_language=dest)
+#     return result['translatedText']
+
+translator = Translator()
+
+
+def translate_to_english(text: str,
+                         src: str = 'auto',
+                         dest: str = 'en') -> str:
+    """
+    Translate any text (Devanagari or Roman) into English
+    using Google Translate via googletrans.
+    """
+    # returns a googletrans.models.Translated object
+    translated = translator.translate(text, src=src, dest=dest)
+    return translated.text
