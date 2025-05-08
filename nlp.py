@@ -1,8 +1,8 @@
 # nlp.py
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-import torch
+# from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+# # from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+# import torch
 
 
 
@@ -161,33 +161,23 @@ def convert_text(text):
 
 
 
-# Load the IndicTrans2 model with custom code
-tokenizer = AutoTokenizer.from_pretrained(
-    "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
-)
-model = AutoModelForSeq2SeqLM.from_pretrained(
-    "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
-)
+# # Load the IndicTrans2 model with custom code
+# tokenizer = AutoTokenizer.from_pretrained(
+#     "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
+# )
+# model = AutoModelForSeq2SeqLM.from_pretrained(
+#     "ai4bharat/indictrans2-indic-en-1B", trust_remote_code=True
+# )
 
-# Proper translation function
-def translate_to_english(text):
-    if not text.strip():
-        return ""
+# # Proper translation function
+# def translate_to_english(text):
+#     if not text.strip():
+#         return ""
     
-    # ✅ Required format: <src_lang> <tgt_lang> <sentence>
-    formatted_input = f">>sa<< >>en<< {text.strip()}"
+#     formatted_input = f">>sa<< >>en<< {text.strip()}"
 
-    inputs = tokenizer(formatted_input, return_tensors="pt", padding=True, truncation=True)
-    with torch.no_grad():
-        output = model.generate(**inputs, max_new_tokens=128)
+#     inputs = tokenizer(formatted_input, return_tensors="pt", padding=True, truncation=True)
+#     with torch.no_grad():
+#         output = model.generate(**inputs, max_new_tokens=128)
 
-    return tokenizer.batch_decode(output, skip_special_tokens=True)[0].strip()
-
-
-# tokenizer = AutoTokenizer.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
-# model     = AutoModelForCausalLM.from_pretrained("diabolic6045/Sanskrit-qwen-7B-Translate")
-
-# def translate_sanskrit(text):
-#     inputs  = tokenizer(text, return_tensors="pt")
-#     output  = model.generate(**inputs, max_new_tokens=200)
-#     return tokenizer.decode(output[0], skip_special_tokens=True)
+#     return tokenizer.batch_decode(output, skip_special_tokens=True)[0].strip()
