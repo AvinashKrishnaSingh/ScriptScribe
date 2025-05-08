@@ -162,7 +162,7 @@ def convert_text(text):
 
 client = translate.Client()
 
-def translate_via_cloud(text: str,
+def translate_to_english(text: str,
                         src: str = 'auto',
                         dest: str = 'en') -> str:
     """
