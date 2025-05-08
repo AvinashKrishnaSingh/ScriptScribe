@@ -1,7 +1,7 @@
 # nlp.py
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from IndicTransToolkit.processor import IndicProcessor
+# from IndicTransToolkit.processor import IndicProcessor
 
 
 
@@ -157,56 +157,56 @@ numerals = {
 def convert_text(text):
     return devanagaritolatin(text, ind_vowels, matras, consonants, diacritics, numerals)
 
-# 1) Device and language‐tag config
-DEVICE    = "cuda" if torch.cuda.is_available() else "cpu"
-SRC_LANG  = "san_Deva"   # Sanskrit in Devanāgarī
-TGT_LANG  = "eng_Latn"   # English in Latin script
-MODEL_ID  = "ai4bharat/indictrans2-indic-en-1B"
+# # 1) Device and language‐tag config
+# DEVICE    = "cuda" if torch.cuda.is_available() else "cpu"
+# SRC_LANG  = "san_Deva"   # Sanskrit in Devanāgarī
+# TGT_LANG  = "eng_Latn"   # English in Latin script
+# MODEL_ID  = "ai4bharat/indictrans2-indic-en-1B"
 
-# 2) Load once at module import
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
-model     = AutoModelForSeq2SeqLM.from_pretrained(
-    MODEL_ID,
-    trust_remote_code=True,
-    torch_dtype=torch.float32  # float16 on GPU if you like
-).to(DEVICE)
-processor = IndicProcessor(inference=True)
+# # 2) Load once at module import
+# tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+# model     = AutoModelForSeq2SeqLM.from_pretrained(
+#     MODEL_ID,
+#     trust_remote_code=True,
+#     torch_dtype=torch.float32  # float16 on GPU if you like
+# ).to(DEVICE)
+# processor = IndicProcessor(inference=True)
 
-def translate_to_english(text: str) -> str:
-    """
-    text: a Devanāgarī-script Sanskrit string
-    returns: English translation (Latin script)
-    """
-    # a) preprocess into the model’s expected "<src> … <tgt>" format
-    batch = processor.preprocess_batch(
-        [text],
-        src_lang=SRC_LANG,
-        tgt_lang=TGT_LANG
-    )
+# def translate_to_english(text: str) -> str:
+#     """
+#     text: a Devanāgarī-script Sanskrit string
+#     returns: English translation (Latin script)
+#     """
+#     # a) preprocess into the model’s expected "<src> … <tgt>" format
+#     batch = processor.preprocess_batch(
+#         [text],
+#         src_lang=SRC_LANG,
+#         tgt_lang=TGT_LANG
+#     )
 
-    # b) tokenize & move to device
-    inputs = tokenizer(
-        batch,
-        truncation=True,
-        padding="longest",
-        return_tensors="pt"
-    ).to(DEVICE)
+#     # b) tokenize & move to device
+#     inputs = tokenizer(
+#         batch,
+#         truncation=True,
+#         padding="longest",
+#         return_tensors="pt"
+#     ).to(DEVICE)
 
-    # c) generate with beam search
-    with torch.no_grad():
-        out_ids = model.generate(
-            **inputs,
-            max_length=256,
-            num_beams=5,
-            early_stopping=True
-        )
+#     # c) generate with beam search
+#     with torch.no_grad():
+#         out_ids = model.generate(
+#             **inputs,
+#             max_length=256,
+#             num_beams=5,
+#             early_stopping=True
+#         )
 
-    # d) decode and post-process (entity replacement etc.)
-    decoded = tokenizer.batch_decode(
-        out_ids,
-        skip_special_tokens=True,
-        clean_up_tokenization_spaces=True
-    )
-    translations = processor.postprocess_batch(decoded, lang=TGT_LANG)
+#     # d) decode and post-process (entity replacement etc.)
+#     decoded = tokenizer.batch_decode(
+#         out_ids,
+#         skip_special_tokens=True,
+#         clean_up_tokenization_spaces=True
+#     )
+#     translations = processor.postprocess_batch(decoded, lang=TGT_LANG)
 
-    return translations[0]
+#     return translations[0]
