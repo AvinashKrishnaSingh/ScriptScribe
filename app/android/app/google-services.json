@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881657242149",
+    "project_id": "scriptscribe-81fee",
+    "storage_bucket": "scriptscribe-81fee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881657242149:android:d31ea3d04c9a1e4c5c55cc",
+        "android_client_info": {
+          "package_name": "com.scriptscribe.scriptscribe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC22dCKDV0NwlEyxs9QRGejgR4O30TyO2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

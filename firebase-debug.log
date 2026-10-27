@@ -1,0 +1,20 @@
+[debug] [2026-10-27T11:56:22.564Z] ----------------------------------------------------------------------
+[debug] [2026-10-27T11:56:22.571Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\singavin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list
+[debug] [2026-10-27T11:56:22.571Z] CLI Version:   15.30.2
+[debug] [2026-10-27T11:56:22.572Z] Platform:      win32
+[debug] [2026-10-27T11:56:22.572Z] Node Version:  v24.21.0
+[debug] [2026-10-27T11:56:22.572Z] Detected Agent: github_copilot_vscode_agent
+[debug] [2026-10-27T11:56:22.573Z] Time:          Tue Oct 27 2026 07:56:22 GMT-0400 (Bolivia Time)
+[debug] [2026-10-27T11:56:22.573Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-10-27T11:56:22.646Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-10-27T11:56:22.648Z] > authorizing via signed-in user (11avinashsingh1999@gmail.com)
+[debug] [2026-10-27T11:56:22.723Z] Checked if tokens are valid: false, expires at: 1793062741819
+[debug] [2026-10-27T11:56:22.723Z] Checked if tokens are valid: false, expires at: 1793062741819
+[debug] [2026-10-27T11:56:22.724Z] > refreshing access token with scopes: []
+[debug] [2026-10-27T11:56:22.735Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-27T11:56:22.735Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-27T11:56:23.138Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-10-27T11:56:23.138Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-27T11:56:23.173Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-10-27T11:56:23.801Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
