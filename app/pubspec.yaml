@@ -40,6 +40,7 @@ dependencies:
   google_mlkit_text_recognition: ^0.17.1
   google_mlkit_translation: ^0.15.1
   image_picker: ^1.2.4
+  shared_preferences: ^2.5.6
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/logo.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

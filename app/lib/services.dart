@@ -23,12 +23,15 @@ class ScriptScribeService {
   );
   final _modelManager = OnDeviceTranslatorModelManager();
 
-  Future<ScanResult> process(File image) async {
+  Future<ScanResult> process(File image,
+      {void Function(String stage)? onStage}) async {
+    onStage?.call('Reading the text…');
     final recognized =
         await _recognizer.processImage(InputImage.fromFile(image));
     final text = recognized.text.trim();
     if (text.isEmpty) return const ScanResult('', '', '');
 
+    onStage?.call('Transliterating…');
     final latin = devanagariToLatin(text);
 
     // Sanskrit is not supported by ML Kit; Hindi is the closest model.
@@ -36,9 +39,11 @@ class ScriptScribeService {
     try {
       for (final code in [TranslateLanguage.hindi, TranslateLanguage.english]) {
         if (!await _modelManager.isModelDownloaded(code.bcpCode)) {
+          onStage?.call('Downloading translation model (first time only)…');
           await _modelManager.downloadModel(code.bcpCode);
         }
       }
+      onStage?.call('Translating to English…');
       english = await _translator.translateText(text);
     } catch (e) {
       english = 'Translation unavailable: $e';
